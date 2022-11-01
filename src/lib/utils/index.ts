@@ -3,19 +3,16 @@ import { get } from 'svelte/store'
 
 import { userLocale } from '../../stores/locale'
 export const formatCurrency = (
-  currency: CurrencyCode,
+  currency: CurrencyCode | undefined,
   value: number
 ) => {
-  if (typeof value === 'number' && currency) {
-    const majorUnits = value / 100
+  const majorUnits = value / 100
 
-    const locale = get(userLocale) ?? 'en-US'
-
-    return new Intl.NumberFormat(locale, {
-      style: 'currency',
-      currency,
-    }).format(majorUnits)
-  }
+  const locale = get(userLocale) ?? 'en-US'
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency || ('USD' as any),
+  }).format(majorUnits)
 }
 
 // https://svelte.dev/repl/0ace7a508bd843b798ae599940a91783?version=3.16.7

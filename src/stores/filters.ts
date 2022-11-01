@@ -1,3 +1,3 @@
 import { writable } from 'svelte/store'
 
-export const filtersStore = writable([])
+export const filtersStore = writable<any[]>([])

@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { browser } from '$app/env'
   import {
-  GQL_AdjustOrder,
-  GQL_GetActiveOrder,
-  GQL_GetCurrencyCode
+    GQL_AdjustOrder,
+    GQL_GetActiveOrder,
+    GQL_GetCurrencyCode,
   } from '$houdini'
 
-  import { clickOutside,formatCurrency } from '$lib/utils'
+  import { clickOutside, formatCurrency } from '$lib/utils'
   import { cartOpen } from '$stores/cart'
   import { fly } from 'svelte/transition'
   import Minus from './icons/minus.svelte'

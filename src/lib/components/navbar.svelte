@@ -1,6 +1,4 @@
 <script>
-  import { browser } from '$app/env'
-
   import { GQL_GetActiveOrder, GQL_GetCollections } from '$houdini'
   import { cartOpen } from '$stores/cart'
   import ShoppingCart from './icons/shopping-cart.svelte'

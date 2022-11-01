@@ -1,8 +1,14 @@
-<script>
+<script lang="ts">
+  import type { CurrencyCode } from '$houdini'
   import { formatCurrency } from '$lib/utils'
 
-  export let currencyCode
-  export let item
+  export let currencyCode: CurrencyCode
+  export let item: {
+    slug: string
+    productName: string
+    productAsset: { preview: string }
+    priceWithTax: { max: number }
+  }
 </script>
 
 <section>
