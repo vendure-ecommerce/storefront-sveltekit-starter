@@ -2,7 +2,7 @@
   "name": "storefront-sveltekit-starter",
   "version": "0.0.1",
   "scripts": {
-    "prepare": "pnpm run gen",
+    "prepare2": "pnpm run gen",
     "gen": "houdini generate",
     "dev": "vite dev",
     "build": "vite build",
@@ -30,7 +30,7 @@
     "eslint": "8.21.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-svelte3": "4.0.0",
-    "graphql": "15.8.0",
+    "graphql": "^15.5.0",
     "husky": "8.0.1",
     "postcss": "8.4.16",
     "postcss-load-config": "4.0.1",
@@ -43,6 +43,9 @@
     "tailwindcss": "3.1.8",
     "tslib": "2.4.0",
     "typescript": "4.7.4",
-    "vite": "3.0.7"
+    "vite": "3.0.7",
+    "houdini": "^0.17.5",
+    "@kitql/vite-plugin-watch-and-run": "^0.4.2",
+    "houdini-svelte": "^0.17.5"
   }
 }

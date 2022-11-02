@@ -1,8 +1,11 @@
 /** @type {import('houdini').ConfigFile} */
 const config = {
-  schemaPath: './schema.graphql',
-  sourceGlob: 'src/**/*.{svelte,gql,graphql}',
   apiUrl: 'https://readonlydemo.vendure.io/shop-api',
+  plugins: {
+    'houdini-svelte': {
+      client: './src/client',
+    },
+  },
   scalars: {
     DateTime: {
       type: 'string',

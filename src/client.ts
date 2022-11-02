@@ -1,6 +1,5 @@
-import { browser } from '$app/env'
-import type { RequestHandlerArgs } from '$houdini'
-import { HoudiniClient } from '$houdini'
+import { browser } from '$app/environment'
+import { HoudiniClient, type RequestHandlerArgs } from '$houdini'
 
 const AUTH_TOKEN_KEY = 'auth_token'
 
@@ -8,9 +7,8 @@ async function fetchQuery({
   fetch,
   text = '',
   variables = {},
-}: // session,
-// metadata,
-RequestHandlerArgs) {
+  metadata,
+}: RequestHandlerArgs) {
   const url =
     import.meta.env.VITE_GRAPHQL_ENDPOINT ||
     'https://readonlydemo.vendure.io/shop-api'
@@ -40,8 +38,7 @@ RequestHandlerArgs) {
       localStorage.setItem(AUTH_TOKEN_KEY, authToken)
     }
   }
-
   return await result.json()
 }
 
-export const houdiniClient = new HoudiniClient(fetchQuery)
+export default new HoudiniClient(fetchQuery)
