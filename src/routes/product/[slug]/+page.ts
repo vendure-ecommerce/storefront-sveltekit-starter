@@ -1,10 +1,7 @@
-import type { PageLoad } from './$types'
+import type { GetProductDetailVariables as V } from './$houdini'
 
-export const load: PageLoad = async event => {
-  const { slug } = event.params
-  const variables = { slug }
-
-  // await GQL_GetProductDetail.fetch({ event, variables })
-
-  return { variables }
+export const GetProductDetailVariables: V = async event => {
+  return {
+    slug: event.params.slug,
+  }
 }

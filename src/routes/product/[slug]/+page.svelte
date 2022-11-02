@@ -4,17 +4,19 @@
     GQL_GetActiveOrder,
     GQL_AddToCart,
     GQL_GetCurrencyCode,
-    GQL_GetProductDetail,
   } from '$houdini'
   import { formatCurrency } from '$lib/utils'
-  import type { PageData } from './$types'
+
+  import type { PageData } from './$houdini'
 
   export let data: PageData
 
-  $: browser &&
-    GQL_GetProductDetail.fetch({ variables: data.variables })
+  $: ({ GetProductDetail } = data)
 
-  $: product = $GQL_GetProductDetail?.data?.product
+  // $: browser &&
+  //   GQL_GetProductDetail.fetch({ variables: data.variables })
+
+  $: product = $GetProductDetail?.data?.product
 
   $: browser && GQL_GetCurrencyCode.fetch()
   $: currencyCode =
@@ -41,13 +43,15 @@
     <!-- TODO -->
     {#each breadcrumbs as breadcrumb}
       {#if breadcrumb.slug === '__root_collection__'}
-        <a sveltekit:prefetch class="link link-primary mr-2" href="/"
-          >Home</a
+        <a
+          data-sveltekit-prefetch
+          class="link link-primary mr-2"
+          href="/">Home</a
         >
       {:else}
         <span class="before:mr-2 before:content-['/']" />
         <a
-          sveltekit:prefetch
+          data-sveltekit-prefetch
           class="link link-primary mr-2"
           href={`/category/${breadcrumb.slug}`}
         >
