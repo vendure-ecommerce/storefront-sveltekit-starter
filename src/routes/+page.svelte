@@ -1,21 +1,23 @@
-<script lang="ts" context="module">
+<script lang="ts">
+  import { browser } from '$app/environment'
   import {
-  GQL_GetCollections,
-  GQL_GetCurrencyCode,
-  GQL_GetTopSellers
+    GQL_GetCollections,
+    GQL_GetCurrencyCode,
+    GQL_GetTopSellers,
   } from '$houdini'
+
   import CategoryBanner from '$lib/components/category-banner.svelte'
   import ProductCard from '$lib/components/product-card.svelte'
-</script>
-
-<script lang="ts">
+  $: browser && GQL_GetTopSellers.fetch()
   $: items = $GQL_GetTopSellers.data?.search?.items ?? []
   let currencyCode =
     $GQL_GetCurrencyCode?.data?.activeChannel?.currencyCode
 
-  $: collections = $GQL_GetCollections.data?.collections.items.filter(
-    item => item.parent.name === '__root_collection__'
-  ) ?? []
+  $: browser && GQL_GetCollections.fetch()
+  $: collections =
+    $GQL_GetCollections.data?.collections.items.filter(
+      item => item.parent.name === '__root_collection__'
+    ) ?? []
 </script>
 
 <CategoryBanner {collections} />

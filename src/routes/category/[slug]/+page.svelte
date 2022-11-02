@@ -1,47 +1,42 @@
-<script lang="ts" context="module">
+<script lang="ts">
+  import type { PageData } from './$types'
+
   import {
     GQL_GetCollections,
     GQL_GetCurrencyCode,
     GQL_SearchProducts,
   } from '$houdini'
+  import { browser } from '$app/environment'
   import CategoryBanner from '$lib/components/category-banner.svelte'
   import Filters from '$lib/components/filters.svelte'
   import ProductCard from '$lib/components/product-card.svelte'
   import { filtersStore } from '$stores/filters'
-  import { get } from 'svelte/store'
-  import type { Load } from './__types/[slug]'
 
-  export const load: Load = async event => {
-    const { slug } = event.params
+  export let data: PageData
+  const { slug } = data
 
-    await GQL_SearchProducts.fetch({
-      event,
-      variables: {
-        input: {
-          collectionSlug: slug,
-          groupByProduct: true,
-          facetValueIds: get(filtersStore),
-          take: 24,
-          skip: 0,
-        },
-      },
-    })
-
-    return { props: { slug } }
-  }
-</script>
-
-<script lang="ts">
-  export let slug: string
-
+  $: browser && GQL_GetCurrencyCode.fetch()
   $: currencyCode =
     $GQL_GetCurrencyCode?.data?.activeChannel?.currencyCode
 
+  $: browser && GQL_GetCollections.fetch()
   $: collections =
     $GQL_GetCollections.data?.collections?.items?.filter(
       item => item?.parent?.slug === slug
     ) ?? []
 
+  $: browser &&
+    GQL_SearchProducts.fetch({
+      variables: {
+        input: {
+          collectionSlug: slug,
+          groupByProduct: true,
+          facetValueIds: $filtersStore,
+          take: 24,
+          skip: 0,
+        },
+      },
+    })
   $: products = $GQL_SearchProducts?.data?.search?.items
   $: facetValues = $GQL_SearchProducts?.data?.search?.facetValues
 </script>

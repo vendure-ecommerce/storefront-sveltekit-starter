@@ -22,7 +22,8 @@
 
   const adjustOrder = async (value: number, id: string) => {
     await GQL_AdjustOrder.mutate({
-      variables: { orderLineId: id, quantity: value },
+      orderLineId: id,
+      quantity: value,
     })
   }
 
