@@ -20,9 +20,9 @@
   },
   "type": "module",
   "devDependencies": {
-    "@kitql/all-in": "0.8.0-next.18",
-    "@sveltejs/adapter-vercel": "1.0.0-next.81",
-    "@sveltejs/kit": "1.0.0-next.532",
+    "@kitql/all-in": "0.8.3",
+    "@sveltejs/adapter-vercel": "1.0.0-next.84",
+    "@sveltejs/kit": "1.0.0-next.571",
     "@typescript-eslint/eslint-plugin": "5.33.1",
     "@typescript-eslint/parser": "5.33.1",
     "autoprefixer": "10.4.8",
@@ -31,6 +31,8 @@
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-svelte3": "4.0.0",
     "graphql": "^15.5.0",
+    "houdini": "^0.17.14",
+    "houdini-svelte": "^0.17.14",
     "husky": "8.0.1",
     "postcss": "8.4.16",
     "postcss-load-config": "4.0.1",
@@ -43,9 +45,6 @@
     "tailwindcss": "3.1.8",
     "tslib": "2.4.0",
     "typescript": "4.7.4",
-    "vite": "3.0.7",
-    "houdini": "^0.17.5",
-    "@kitql/vite-plugin-watch-and-run": "^0.4.2",
-    "houdini-svelte": "^0.17.5"
+    "vite": "3.2.4"
   }
 }

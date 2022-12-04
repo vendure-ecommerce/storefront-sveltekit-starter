@@ -54,6 +54,12 @@
         >
           @vendure/storefront on GitHub
         </a>
+        using
+        <a
+          class="link"
+          target="_blank"
+          href="https://www.houdinigraphql.com/">Houdini</a
+        >
       </p>
     </div>
   </div>
