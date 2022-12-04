@@ -1,62 +1,45 @@
-<script lang="ts" context="module">
-  import {
-    GQL_GetActiveOrder,
-    GQL_AddToCart,
-    GQL_GetCurrencyCode,
-    GQL_GetProductDetail,
-    type Variant$data,
-    type GetProductDetail$input,
-    CachePolicy,
-  } from '$houdini'
-  import { formatCurrency } from '$lib/utils'
-  import type { Load } from './__types/[slug]'
-
-  export const load: Load<
-    {},
-    { variables: GetProductDetail$input }
-  > = async event => {
-    const { slug } = event.params
-    const variables = { slug }
-
-    await GQL_GetProductDetail.fetch({ event, variables })
-
-    return { props: { variables } }
-  }
-</script>
-
 <script lang="ts">
-  import { browser } from '$app/env'
+  import { AddToCartStore, graphql } from '$houdini'
+  import { formatCurrency } from '$lib/utils'
 
-  export let variables: GetProductDetail$input
+  import type { PageData } from './$houdini'
 
-  $: browser && GQL_GetProductDetail.fetch({ variables })
+  export let data: PageData
 
-  $: product = $GQL_GetProductDetail?.data?.product
+  $: ({ GetProductDetail } = data)
 
-  $: currencyCode =
-    $GQL_GetCurrencyCode?.data?.activeChannel?.currencyCode
+  $: product = $GetProductDetail?.data?.product
 
   $: breadcrumbs =
     product &&
     product.collections &&
     product.collections[product.collections.length - 1].breadcrumbs
 
-  let selected: Variant$data = product?.variants?.[0]
+  let selected = product?.variants?.[0]
   let quantity = 1
+
+  const gql_AddToCart: AddToCartStore = graphql`
+    mutation AddToCart($productVariantId: ID!, $quantity: Int!) {
+      addItemToOrder(
+        productVariantId: $productVariantId
+        quantity: $quantity
+      ) {
+        ... on Order {
+          ...NavBarSummary
+          ...CartInfo
+        }
+        ... on ErrorResult {
+          errorCode
+          message
+        }
+      }
+    }
+  `
 
   const addToCart = async () => {
     let id = !selected ? product.variants[0].id : selected.id
-    let variables = { productVariantId: id, quantity }
 
-    await GQL_AddToCart.mutate({ variables })
-
-    // If we never had activeOrder, we need to fetch it again after adding to cart
-    // Only once, because we don't want to fetch it every time we add to cart!
-    if ($GQL_GetActiveOrder.data?.activeOrder === null) {
-      await GQL_GetActiveOrder.fetch({
-        policy: CachePolicy.NetworkOnly,
-      })
-    }
+    await gql_AddToCart.mutate({ productVariantId: id, quantity })
   }
 </script>
 
@@ -65,13 +48,15 @@
     <!-- TODO -->
     {#each breadcrumbs as breadcrumb}
       {#if breadcrumb.slug === '__root_collection__'}
-        <a sveltekit:prefetch class="link link-primary mr-2" href="/"
-          >Home</a
+        <a
+          data-sveltekit-preload-data="hover"
+          class="link link-primary mr-2"
+          href="/">Home</a
         >
       {:else}
         <span class="before:mr-2 before:content-['/']" />
         <a
-          sveltekit:prefetch
+          data-sveltekit-preload-data="hover"
           class="link link-primary mr-2"
           href={`/category/${breadcrumb.slug}`}
         >
@@ -113,7 +98,6 @@
             class="inline-block align-bottom text-2xl text-neutral mr-4"
           >
             {formatCurrency(
-              currencyCode,
               selected?.priceWithTax ||
                 product.variants[0].priceWithTax
             ) || 0}
@@ -128,7 +112,6 @@
               bind:value={quantity}
             />
             <button
-              disabled={$GQL_GetActiveOrder.data === null}
               on:click={addToCart}
               class="rounded-lg btn btn-primary"
             >

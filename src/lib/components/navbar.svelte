@@ -1,5 +1,11 @@
-<script>
-  import { GQL_GetActiveOrder, GQL_GetCollections } from '$houdini'
+<script lang="ts">
+  import {
+    GQL_GetCollections,
+    graphql,
+    NavBarStore,
+    fragment,
+    NavBarSummary,
+  } from '$houdini'
   import { cartOpen } from '$stores/cart'
   import ShoppingCart from './icons/shopping-cart.svelte'
   import Search from './search.svelte'
@@ -8,6 +14,27 @@
     $GQL_GetCollections.data?.collections.items.filter(
       item => item?.parent?.name === '__root_collection__'
     ) || []
+
+  // query directly in a componenent as it's reliying on LocalStorage, we want to do it only in the browser
+  const gql_NavBar: NavBarStore = graphql`
+    query NavBar {
+      activeOrder {
+        ...NavBarSummary
+      }
+    }
+  `
+  // split with a fragment because we want to use it somewhere else as well
+  let activeOrder: NavBarSummary
+  $: activeOrder = $gql_NavBar.data?.activeOrder
+  $: frag = fragment(
+    activeOrder,
+    graphql`
+      fragment NavBarSummary on Order {
+        id
+        totalQuantity
+      }
+    `
+  )
 </script>
 
 <nav
@@ -57,7 +84,7 @@
       <span
         class="absolute -right-1 -top-1 leading-[1.25rem] text-[70%] font-bold text-center bg-secondary text-secondary-content rounded-2xl h-5 w-7"
       >
-        {$GQL_GetActiveOrder?.data?.activeOrder?.totalQuantity || 0}
+        {$frag?.totalQuantity || 0}
       </span>
       <button
         on:click={() => {

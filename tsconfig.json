@@ -1,20 +1,15 @@
 {
   "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "$lib": ["src/lib"],
-      "$lib/*": ["src/lib/*"],
-      "$stores/*": ["src/stores/*"],
-      "$houdini": ["$houdini"],
-      "$houdini/*": ["$houdini/*"]
-    }
-  },
-  "include": [
-    "src/**/*.d.ts",
-    "src/**/*.js",
-    "src/**/*.svelte",
-    "src/lib/utils/index.ts",
-    "src/hooks/index.ts"
-  ]
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": false,
+    "preserveValueImports": false,
+    "rootDirs": [".", "./.svelte-kit/types", "./$houdini/types"]
+  }
 }

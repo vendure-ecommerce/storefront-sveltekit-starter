@@ -1,27 +1,14 @@
-<script lang="ts" context="module">
-  import { GQL_GetCurrencyCode, GQL_SearchProducts } from '$houdini'
+<script lang="ts">
+  import type { PageData } from './$types'
+
+  import { GQL_SearchProducts } from '$houdini'
   import Filters from '$lib/components/filters.svelte'
   import SadFace from '$lib/components/icons/sad-face.svelte'
   import ProductCard from '$lib/components/product-card.svelte'
   import { filtersStore } from '$stores/filters'
-  import type { Load } from '@sveltejs/kit'
 
-  export const load: Load = async event => {
-    await GQL_SearchProducts.fetch({
-      event,
-      variables: { input: {} },
-    })
-    const { searchTerm } = event.params
-    
-    return { props: { searchTerm } }
-  }
-</script>
-
-<script lang="ts">
-  export let searchTerm: string
-
-  let currencyCode =
-    $GQL_GetCurrencyCode?.data?.activeChannel?.currencyCode
+  export let data: PageData
+  const { searchTerm } = data
 
   $: GQL_SearchProducts.fetch({
     variables: {
@@ -48,7 +35,7 @@
       class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
     >
       {#each products as item}
-        <ProductCard {currencyCode} {item} />
+        <ProductCard {item} />
       {/each}
     </div>
   {:else}

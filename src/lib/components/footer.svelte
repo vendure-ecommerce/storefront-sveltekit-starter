@@ -54,6 +54,19 @@
         >
           @vendure/storefront on GitHub
         </a>
+        using
+        <a
+          class="link"
+          target="_blank"
+          href="https://www.houdinigraphql.com/">Houdini</a
+        >
+        and
+        <a class="link" target="_blank" href="https://www.kitql.dev/"
+          >KitQL</a
+        >
+        (<a class="link" target="_blank" href="/api/graphiql"
+          >GraphiQL</a
+        >)
       </p>
     </div>
   </div>
