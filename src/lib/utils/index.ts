@@ -1,17 +1,16 @@
-import type { CurrencyCode } from '$houdini'
+import { currencyCode } from '$stores/currencyCode'
+import { userLocale } from '$stores/locale'
 import { get } from 'svelte/store'
 
-import { userLocale } from '../../stores/locale'
-export const formatCurrency = (
-  currency: CurrencyCode | undefined,
-  value: number
-) => {
+export const formatCurrency = (value: number) => {
   const majorUnits = value / 100
 
   const locale = get(userLocale) ?? 'en-US'
+  const currency = get(currencyCode) ?? 'USD'
+
   return new Intl.NumberFormat(locale, {
     style: 'currency',
-    currency: currency || ('USD' as any),
+    currency: currency,
   }).format(majorUnits)
 }
 

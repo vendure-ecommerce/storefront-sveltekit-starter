@@ -7,7 +7,6 @@ async function fetchQuery({
   fetch,
   text = '',
   variables = {},
-  metadata,
 }: RequestHandlerArgs) {
   const url =
     import.meta.env.VITE_GRAPHQL_ENDPOINT ||

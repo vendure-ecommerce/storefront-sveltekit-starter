@@ -1,26 +1,43 @@
 <script lang="ts">
-  import type { CurrencyCode } from '$houdini'
   import { formatCurrency } from '$lib/utils'
 
-  export let currencyCode: CurrencyCode
-  export let item: {
-    slug: string
-    productName: string
-    productAsset: { preview: string }
-    priceWithTax: { max: number }
-  }
+  import { fragment, graphql, type productCartDetail } from '$houdini'
+
+  export let item: productCartDetail
+
+  $: frag = fragment(
+    item,
+    graphql`
+      fragment productCartDetail on SearchResult {
+        slug
+        productAsset {
+          preview
+        }
+        productName
+        priceWithTax {
+          ... on PriceRange {
+            max
+          }
+        }
+      }
+    `
+  )
 </script>
 
 <section>
-  <a data-sveltekit-prefetch href={`/product/${item.slug}`} class="">
+  <a
+    data-sveltekit-preload-data="hover"
+    href={`/product/${$frag?.slug}`}
+    class=""
+  >
     <img
       class="object-cover rounded-2xl"
-      src={`${item.productAsset.preview}?w=200&h=200`}
-      alt={item.productName}
+      src={`${$frag?.productAsset.preview}?w=200&h=200`}
+      alt={$frag?.productName}
     />
   </a>
-  <p class="xl:text-center">{item.productName}</p>
+  <p class="xl:text-center">{$frag?.productName}</p>
   <p class="xl:text-center text-primary">
-    {formatCurrency(currencyCode, item.priceWithTax.max) || 0}
+    {formatCurrency($frag?.priceWithTax.max) || 0}
   </p>
 </section>

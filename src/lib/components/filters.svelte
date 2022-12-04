@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-import { browser } from '$app/environment';
+  import { browser } from '$app/environment'
 
   export let facetValues: {
     __typename?: 'FacetValueResult'

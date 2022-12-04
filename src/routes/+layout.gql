@@ -1,4 +1,4 @@
-query GetCurrencyCode {
+query LayoutQuery {
   activeChannel {
     currencyCode
   }

@@ -1,19 +1,14 @@
 <script lang="ts">
-  import { browser } from '$app/environment'
-  import {
-    GQL_GetCollections,
-    GQL_GetCurrencyCode,
-    GQL_GetTopSellers,
-  } from '$houdini'
-
+  import { GQL_GetCollections } from '$houdini'
   import CategoryBanner from '$lib/components/category-banner.svelte'
   import ProductCard from '$lib/components/product-card.svelte'
-  $: browser && GQL_GetTopSellers.fetch()
-  $: items = $GQL_GetTopSellers.data?.search?.items ?? []
-  let currencyCode =
-    $GQL_GetCurrencyCode?.data?.activeChannel?.currencyCode
 
-  $: browser && GQL_GetCollections.fetch()
+  import type { PageData } from './$types'
+
+  export let data: PageData
+
+  $: ({ GetTopSellers } = data)
+
   $: collections =
     $GQL_GetCollections.data?.collections.items.filter(
       item => item.parent.name === '__root_collection__'
@@ -27,7 +22,7 @@
 <div
   class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
 >
-  {#each items as item}
-    <ProductCard {currencyCode} {item} />
+  {#each $GetTopSellers.data?.search?.items ?? [] as item}
+    <ProductCard {item} />
   {/each}
 </div>

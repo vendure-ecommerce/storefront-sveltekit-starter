@@ -1,12 +1,8 @@
 <script lang="ts">
   import type { PageData } from './$types'
 
-  import {
-    GQL_GetCollections,
-    GQL_GetCurrencyCode,
-    GQL_SearchProducts,
-  } from '$houdini'
   import { browser } from '$app/environment'
+  import { GQL_GetCollections, GQL_SearchProducts } from '$houdini'
   import CategoryBanner from '$lib/components/category-banner.svelte'
   import Filters from '$lib/components/filters.svelte'
   import ProductCard from '$lib/components/product-card.svelte'
@@ -14,10 +10,6 @@
 
   export let data: PageData
   const { slug } = data
-
-  $: browser && GQL_GetCurrencyCode.fetch()
-  $: currencyCode =
-    $GQL_GetCurrencyCode?.data?.activeChannel?.currencyCode
 
   $: browser && GQL_GetCollections.fetch()
   $: collections =
@@ -52,7 +44,7 @@
   >
     {#if products?.length >= 1}
       {#each products as item}
-        <ProductCard {currencyCode} {item} />
+        <ProductCard {item} />
       {/each}
     {/if}
   </div>

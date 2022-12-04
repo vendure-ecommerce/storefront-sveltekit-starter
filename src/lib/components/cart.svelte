@@ -1,8 +1,9 @@
 <script lang="ts">
   import {
     AdjustOrderStore,
-    CartInfoStore,
-    GQL_GetCurrencyCode,
+    CartInfo,
+    CartStore,
+    fragment,
     graphql,
   } from '$houdini'
 
@@ -12,9 +13,21 @@
   import Minus from './icons/minus.svelte'
   import Plus from './icons/plus.svelte'
 
-  const gql_CartInfo: CartInfoStore = graphql`
-    query CartInfo @houdini(load: false) {
+  const gql_Cart: CartStore = graphql`
+    query Cart @houdini(load: false) {
       activeOrder {
+        ...CartInfo
+      }
+    }
+  `
+
+  // split with a fragment because we want to use it somewhere else as well
+  let activeOrder: CartInfo
+  $: activeOrder = $gql_Cart.data?.activeOrder
+  $: frag = fragment(
+    activeOrder,
+    graphql`
+      fragment CartInfo on Order {
         lines {
           id
           unitPriceWithTax
@@ -30,11 +43,8 @@
         shippingWithTax
         totalWithTax
       }
-    }
-  `
-
-  $: currencyCode =
-    $GQL_GetCurrencyCode?.data?.activeChannel?.currencyCode
+    `
+  )
 
   const gql_AdjustOrder: AdjustOrderStore = graphql`
     mutation AdjustOrder($orderLineId: ID!, $quantity: Int!) {
@@ -43,27 +53,7 @@
         quantity: $quantity
       ) {
         ... on Order {
-          __typename
-          id
-          code
-          state
-          totalWithTax
-          totalQuantity
-          shippingWithTax
-          lines {
-            id
-            unitPriceWithTax
-            quantity
-            linePriceWithTax
-            productVariant {
-              id
-              name
-            }
-            featuredAsset {
-              id
-              preview
-            }
-          }
+          ...CartInfo
         }
         ... on ErrorResult {
           errorCode
@@ -85,7 +75,7 @@
   }
 
   // fetch only when we open the cart
-  $: $cartOpen && gql_CartInfo.fetch()
+  $: $cartOpen && gql_Cart.fetch()
 </script>
 
 {#if $cartOpen}
@@ -108,7 +98,7 @@
       <p>Cart</p>
     </div>
 
-    {#each $gql_CartInfo?.data?.activeOrder?.lines ?? [] as item}
+    {#each $frag?.lines ?? [] as item}
       <div class="my-6 flex">
         <div class="">
           <img
@@ -121,8 +111,7 @@
           <p class="text-xl pb-1">{item.productVariant.name}</p>
           <div class="flex align-center justify-between">
             <p>
-              {formatCurrency(currencyCode, item.unitPriceWithTax) ||
-                0}
+              {formatCurrency(item.unitPriceWithTax) || 0}
             </p>
             <div>
               <button
@@ -145,8 +134,7 @@
               </button>
             </div>
             <p>
-              {formatCurrency(currencyCode, item.linePriceWithTax) ||
-                0}
+              {formatCurrency(item.linePriceWithTax) || 0}
             </p>
           </div>
         </div>
@@ -160,20 +148,14 @@
     <div class="flex justify-between align-middle text-lg">
       <p>Shipping</p>
       <p>
-        {formatCurrency(
-          currencyCode,
-          $gql_CartInfo?.data?.activeOrder?.shippingWithTax
-        ) || 0}
+        {formatCurrency($frag?.shippingWithTax) || 0}
       </p>
     </div>
     <span class="divider" />
     <div class="flex justify-between align-middle text-lg mb-10">
       <p class="text-xl">Total</p>
       <p>
-        {formatCurrency(
-          currencyCode,
-          $gql_CartInfo?.data?.activeOrder?.totalWithTax
-        ) || 0}
+        {formatCurrency($frag?.totalWithTax) || 0}
       </p>
     </div>
     <button class="btn btn-block">Checkout</button>

@@ -1,10 +1,5 @@
 <script lang="ts">
-  import { browser } from '$app/environment'
-  import {
-    AddToCartStore,
-    GQL_GetCurrencyCode,
-    graphql,
-  } from '$houdini'
+  import { AddToCartStore, graphql } from '$houdini'
   import { formatCurrency } from '$lib/utils'
 
   import type { PageData } from './$houdini'
@@ -14,10 +9,6 @@
   $: ({ GetProductDetail } = data)
 
   $: product = $GetProductDetail?.data?.product
-
-  $: browser && GQL_GetCurrencyCode.fetch()
-  $: currencyCode =
-    $GQL_GetCurrencyCode?.data?.activeChannel?.currencyCode
 
   $: breadcrumbs =
     product &&
@@ -34,27 +25,8 @@
         quantity: $quantity
       ) {
         ... on Order {
-          __typename
-          id
-          code
-          state
-          totalWithTax
-          totalQuantity
-          shippingWithTax
-          lines {
-            id
-            unitPriceWithTax
-            quantity
-            linePriceWithTax
-            productVariant {
-              id
-              name
-            }
-            featuredAsset {
-              id
-              preview
-            }
-          }
+          ...NavBarSummary
+          ...CartInfo
         }
         ... on ErrorResult {
           errorCode
@@ -66,9 +38,8 @@
 
   const addToCart = async () => {
     let id = !selected ? product.variants[0].id : selected.id
-    let variables = { productVariantId: id, quantity }
 
-    await gql_AddToCart.mutate(variables)
+    await gql_AddToCart.mutate({ productVariantId: id, quantity })
   }
 </script>
 
@@ -127,7 +98,6 @@
             class="inline-block align-bottom text-2xl text-neutral mr-4"
           >
             {formatCurrency(
-              currencyCode,
               selected?.priceWithTax ||
                 product.variants[0].priceWithTax
             ) || 0}

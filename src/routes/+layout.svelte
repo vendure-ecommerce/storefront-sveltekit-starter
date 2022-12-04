@@ -4,6 +4,7 @@
   import Hero from '$lib/components/hero.svelte'
   import Navbar from '$lib/components/navbar.svelte'
   import PageTransition from '$lib/components/page-transition.svelte'
+  import { currencyCode } from '$stores/currencyCode'
   import { onMount } from 'svelte'
   import '../app.css'
   import { userLocale } from '../stores/locale'
@@ -12,7 +13,9 @@
 
   export let data: PageData
 
-  // Only browser side because depending on the localstorage
+  $: ({ LayoutQuery } = data)
+
+  $: $currencyCode = $LayoutQuery.data.activeChannel.currencyCode
 
   onMount(async () => {
     userLocale.set(navigator.languages[0] as any)

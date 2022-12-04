@@ -1,8 +1,7 @@
 <script lang="ts">
   import type { PageData } from './$types'
 
-  import { browser } from '$app/environment'
-  import { GQL_GetCurrencyCode, GQL_SearchProducts } from '$houdini'
+  import { GQL_SearchProducts } from '$houdini'
   import Filters from '$lib/components/filters.svelte'
   import SadFace from '$lib/components/icons/sad-face.svelte'
   import ProductCard from '$lib/components/product-card.svelte'
@@ -10,10 +9,6 @@
 
   export let data: PageData
   const { searchTerm } = data
-
-  $: browser && GQL_GetCurrencyCode.fetch()
-  let currencyCode =
-    $GQL_GetCurrencyCode?.data?.activeChannel?.currencyCode
 
   $: GQL_SearchProducts.fetch({
     variables: {
@@ -40,7 +35,7 @@
       class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
     >
       {#each products as item}
-        <ProductCard {currencyCode} {item} />
+        <ProductCard {item} />
       {/each}
     </div>
   {:else}

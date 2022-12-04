@@ -1,6 +1,7 @@
 query SearchProducts($input: SearchInput!) {
   search(input: $input) {
     items {
+      ...productCartDetail
       productId
       slug
       productName
