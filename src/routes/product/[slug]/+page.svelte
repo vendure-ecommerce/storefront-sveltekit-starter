@@ -1,9 +1,9 @@
 <script lang="ts">
   import { browser } from '$app/environment'
   import {
-    GQL_GetActiveOrder,
-    GQL_AddToCart,
+    AddToCartStore,
     GQL_GetCurrencyCode,
+    graphql,
   } from '$houdini'
   import { formatCurrency } from '$lib/utils'
 
@@ -12,9 +12,6 @@
   export let data: PageData
 
   $: ({ GetProductDetail } = data)
-
-  // $: browser &&
-  //   GQL_GetProductDetail.fetch({ variables: data.variables })
 
   $: product = $GetProductDetail?.data?.product
 
@@ -30,11 +27,48 @@
   let selected = product?.variants?.[0]
   let quantity = 1
 
+  const gql_AddToCart: AddToCartStore = graphql`
+    mutation AddToCart($productVariantId: ID!, $quantity: Int!) {
+      addItemToOrder(
+        productVariantId: $productVariantId
+        quantity: $quantity
+      ) {
+        ... on Order {
+          __typename
+          id
+          code
+          state
+          totalWithTax
+          totalQuantity
+          shippingWithTax
+          lines {
+            id
+            unitPriceWithTax
+            quantity
+            linePriceWithTax
+            productVariant {
+              id
+              name
+            }
+            featuredAsset {
+              id
+              preview
+            }
+          }
+        }
+        ... on ErrorResult {
+          errorCode
+          message
+        }
+      }
+    }
+  `
+
   const addToCart = async () => {
     let id = !selected ? product.variants[0].id : selected.id
     let variables = { productVariantId: id, quantity }
 
-    await GQL_AddToCart.mutate(variables)
+    await gql_AddToCart.mutate(variables)
   }
 </script>
 
@@ -44,14 +78,14 @@
     {#each breadcrumbs as breadcrumb}
       {#if breadcrumb.slug === '__root_collection__'}
         <a
-          data-sveltekit-prefetch
+          data-sveltekit-preload-data="hover"
           class="link link-primary mr-2"
           href="/">Home</a
         >
       {:else}
         <span class="before:mr-2 before:content-['/']" />
         <a
-          data-sveltekit-prefetch
+          data-sveltekit-preload-data="hover"
           class="link link-primary mr-2"
           href={`/category/${breadcrumb.slug}`}
         >
@@ -108,7 +142,6 @@
               bind:value={quantity}
             />
             <button
-              disabled={$GQL_GetActiveOrder.data === null}
               on:click={addToCart}
               class="rounded-lg btn btn-primary"
             >

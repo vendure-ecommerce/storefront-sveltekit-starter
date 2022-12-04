@@ -4,13 +4,43 @@ query GetProductDetail($slug: String!) {
     name
     description
     variants {
-      ...Variant
+      # fragment Variant on ProductVariant {
+      id
+      name
+      options {
+        code
+        name
+      }
+      price
+      priceWithTax
+      sku
+      # }
     }
     featuredAsset {
-      ...Asset
+      # fragment Asset on Asset {
+      id
+      width
+      height
+      name
+      preview
+      focalPoint {
+        x
+        y
+      }
+      # }
     }
     assets {
-      ...Asset
+      # fragment Asset on Asset {
+      id
+      width
+      height
+      name
+      preview
+      focalPoint {
+        x
+        y
+      }
+      # }
     }
     collections {
       id

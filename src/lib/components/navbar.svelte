@@ -1,5 +1,9 @@
-<script>
-  import { GQL_GetActiveOrder, GQL_GetCollections } from '$houdini'
+<script lang="ts">
+  import {
+    GQL_GetCollections,
+    graphql,
+    NavBarOrderSummaryStore,
+  } from '$houdini'
   import { cartOpen } from '$stores/cart'
   import ShoppingCart from './icons/shopping-cart.svelte'
   import Search from './search.svelte'
@@ -8,6 +12,14 @@
     $GQL_GetCollections.data?.collections.items.filter(
       item => item?.parent?.name === '__root_collection__'
     ) || []
+
+  const gql_NavBarOrderSummary: NavBarOrderSummaryStore = graphql`
+    query NavBarOrderSummary {
+      activeOrder {
+        totalQuantity
+      }
+    }
+  `
 </script>
 
 <nav
@@ -57,7 +69,8 @@
       <span
         class="absolute -right-1 -top-1 leading-[1.25rem] text-[70%] font-bold text-center bg-secondary text-secondary-content rounded-2xl h-5 w-7"
       >
-        {$GQL_GetActiveOrder?.data?.activeOrder?.totalQuantity || 0}
+        {$gql_NavBarOrderSummary.data?.activeOrder?.totalQuantity ||
+          0}
       </span>
       <button
         on:click={() => {
