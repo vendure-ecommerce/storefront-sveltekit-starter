@@ -33,7 +33,7 @@
     "graphql": "^15.5.0",
     "houdini": "^0.17.14",
     "houdini-svelte": "^0.17.14",
-    "husky": "8.0.1",
+    "husky": "8.0.2",
     "postcss": "8.4.16",
     "postcss-load-config": "4.0.1",
     "prettier": "2.7.1",
