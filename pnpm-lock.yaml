@@ -21,7 +21,7 @@ specifiers:
   prettier-plugin-svelte: 2.8.1
   pretty-quick: 3.1.3
   svelte: 3.49.0
-  svelte-check: 2.8.0
+  svelte-check: 2.10.1
   svelte-preprocess: 4.10.7
   tailwindcss: 3.2.4
   tslib: 2.4.1
@@ -49,7 +49,7 @@ devDependencies:
   prettier-plugin-svelte: 2.8.1_t75td3sgez5drshslcoraxhlnm
   pretty-quick: 3.1.3_prettier@2.8.0
   svelte: 3.49.0
-  svelte-check: 2.8.0_cxyr4u5iq6mzd44wkmoxyq62gi
+  svelte-check: 2.10.1_cxyr4u5iq6mzd44wkmoxyq62gi
   svelte-preprocess: 4.10.7_kghsny4vio6244akygnl7vmnia
   tailwindcss: 3.2.4_postcss@8.4.16
   tslib: 2.4.1
@@ -5524,15 +5524,15 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /svelte-check/2.8.0_cxyr4u5iq6mzd44wkmoxyq62gi:
-    resolution: {integrity: sha512-HRL66BxffMAZusqe5I5k26mRWQ+BobGd9Rxm3onh7ZVu0nTk8YTKJ9vu3LVPjUGLU9IX7zS+jmwPVhJYdXJ8vg==}
+  /svelte-check/2.10.1_cxyr4u5iq6mzd44wkmoxyq62gi:
+    resolution: {integrity: sha512-uscZovyuOPA89NuAkc4vO27mzx//2wFBNtwTsgYcNs7JwaFpJ2TqBawQ/avG7gkieYQ3QXqFUggJZ+s51fQGDQ==}
     hasBin: true
     peerDependencies:
       svelte: ^3.24.0
     dependencies:
       '@jridgewell/trace-mapping': 0.3.14
       chokidar: 3.5.3
-      fast-glob: 3.2.11
+      fast-glob: 3.2.12
       import-fresh: 3.3.0
       picocolors: 1.0.0
       sade: 1.8.1
