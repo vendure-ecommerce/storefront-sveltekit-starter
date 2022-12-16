@@ -30,7 +30,7 @@
     "eslint": "8.29.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-svelte3": "4.0.0",
-    "graphql": "^15.5.0",
+    "graphql": "^16.0.0",
     "houdini": "^0.17.14",
     "houdini-svelte": "^0.17.14",
     "husky": "8.0.2",
