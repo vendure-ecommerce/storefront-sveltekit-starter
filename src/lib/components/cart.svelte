@@ -14,6 +14,8 @@
 	import Minus from './icons/minus.svelte'
 	import Plus from './icons/plus.svelte'
 
+	let fromMutation = false
+
 	const gql_Cart: CartStore = graphql`
 		query Cart @manual_load {
 			activeOrder {
@@ -22,12 +24,12 @@
 		}
 	`
 
-	// to init the cart
-	$: browser && gql_Cart.fetch()
-
 	// split with a fragment because we want to use it somewhere else as well
 	let activeOrder: CartInfo
-	$: activeOrder = $gql_Cart.data?.activeOrder
+
+	$: activeOrder = fromMutation
+		? $gql_AdjustOrder.data?.adjustOrderLine
+		: $gql_Cart.data?.activeOrder
 	$: frag = fragment(
 		activeOrder,
 		graphql`
@@ -58,10 +60,7 @@
 			) {
 				... on Order {
 					...CartInfo
-				}
-				... on ErrorResult {
-					errorCode
-					message
+					...NavBarSummary
 				}
 			}
 		}
@@ -72,6 +71,7 @@
 			orderLineId: id,
 			quantity: value,
 		})
+		fromMutation = true
 	}
 
 	const handleClickOutside = () => {
