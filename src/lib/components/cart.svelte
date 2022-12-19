@@ -1,10 +1,10 @@
 <script lang="ts">
   import {
-    AdjustOrderStore,
-    CartInfo,
-    CartStore,
-    fragment,
-    graphql,
+  	AdjustOrderStore,
+  	CartInfo,
+  	CartStore,
+  	fragment,
+  	graphql
   } from '$houdini'
 
   import { clickOutside, formatCurrency } from '$lib/utils'
@@ -14,7 +14,7 @@
   import Plus from './icons/plus.svelte'
 
   const gql_Cart: CartStore = graphql`
-    query Cart @houdini(load: false) {
+    query Cart @manual_load {
       activeOrder {
         ...CartInfo
       }
@@ -97,6 +97,8 @@
       </button>
       <p>Cart</p>
     </div>
+
+    <pre>{console.log( JSON.stringify($frag, null, 2))}</pre>
 
     {#each $frag?.lines ?? [] as item}
       <div class="my-6 flex">
