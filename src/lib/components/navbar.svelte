@@ -15,7 +15,7 @@
       item => item?.parent?.name === '__root_collection__'
     ) || []
 
-  // query directly in a componenent as it's reliying on LocalStorage, we want to do it only in the browser
+  // query directly in a component as it's relying on LocalStorage, we want to do it only in the browser
   const gql_NavBar: NavBarStore = graphql`
     query NavBar {
       activeOrder {
@@ -60,9 +60,8 @@
     </div>
 
     <div class="dropdown dropdown-right lg:hidden">
-      <div tabindex="0" class="m-1 btn">Links</div>
+      <div  class="m-1 btn">Links</div>
       <ul
-        tabindex="0"
         class="bg-neutral rounded-box shadow text-neutral-content p-2 w-52 menu dropdown-content"
       >
         {#each collections as collection}
