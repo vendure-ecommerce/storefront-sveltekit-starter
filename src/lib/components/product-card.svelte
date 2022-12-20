@@ -26,7 +26,6 @@
 
 <section>
   <a
-    data-sveltekit-preload-data="hover"
     href={`/product/${$frag?.slug}`}
     class=""
   >

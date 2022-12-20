@@ -49,14 +49,12 @@
     {#each breadcrumbs as breadcrumb}
       {#if breadcrumb.slug === '__root_collection__'}
         <a
-          data-sveltekit-preload-data="hover"
           class="link link-primary mr-2"
           href="/">Home</a
         >
       {:else}
         <span class="before:mr-2 before:content-['/']" />
         <a
-          data-sveltekit-preload-data="hover"
           class="link link-primary mr-2"
           href={`/category/${breadcrumb.slug}`}
         >
