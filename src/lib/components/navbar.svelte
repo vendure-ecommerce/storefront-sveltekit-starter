@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment'
   import {
     GQL_GetCollections,
     graphql,
@@ -10,6 +11,7 @@
   import ShoppingCart from './icons/shopping-cart.svelte'
   import Search from './search.svelte'
 
+  $: browser && GQL_GetCollections.fetch()
   $: collections =
     $GQL_GetCollections.data?.collections.items.filter(
       item => item?.parent?.name === '__root_collection__'

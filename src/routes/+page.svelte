@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment'
   import { GQL_GetCollections } from '$houdini'
   import CategoryBanner from '$lib/components/category-banner.svelte'
   import ProductCard from '$lib/components/product-card.svelte'
@@ -9,6 +10,7 @@
 
   $: ({ GetTopSellers } = data)
 
+  $: browser && GQL_GetCollections.fetch()
   $: collections =
     $GQL_GetCollections.data?.collections.items.filter(
       item => item.parent.name === '__root_collection__'
