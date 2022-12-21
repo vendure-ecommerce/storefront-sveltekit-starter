@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment'
+  import VendureLogo from '$lib/images/cube-logo-line-icon-nostroke.png'
   import {
     GQL_GetCollections,
     graphql,
@@ -46,7 +47,7 @@
     <a href={`/`}>
       <img
         class="h-8"
-        src="/cube-logo-line-icon-nostroke.png"
+        src={VendureLogo}
         alt="vendure logo"
       />
     </a>

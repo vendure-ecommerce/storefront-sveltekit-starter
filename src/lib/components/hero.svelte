@@ -1,5 +1,6 @@
 <script lang="ts">
   import { GQL_GetCollections } from '$houdini'
+  import HeroBackground from '$lib/images/abel-y-costa-716024-unsplash__preview.jpg'
 
   export let key: string
 
@@ -11,7 +12,7 @@
 {#if key === '/'}
   <div
     class="hero min-h-[20vh] lg:min-h-[60vh] mb-10"
-    style="background-image: url(/abel-y-costa-716024-unsplash__preview.jpg);"
+    style="background-image: url({HeroBackground});"
   >
     <div class="hero-overlay bg-opacity-40" />
     <div class="text-center text-neutral-content relative">
@@ -28,7 +29,7 @@
     style={`background-image: url(${
       parent
         ? parent.featuredAsset.preview
-        : `/abel-y-costa-716024-unsplash__preview.jpg`
+        : HeroBackground
     });`}
   >
     <div class="hero-overlay bg-opacity-80" />
