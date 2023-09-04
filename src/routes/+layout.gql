@@ -1,5 +1,5 @@
 query LayoutQuery {
-  activeChannel {
-    currencyCode
-  }
+	activeChannel {
+		defaultCurrencyCode
+	}
 }

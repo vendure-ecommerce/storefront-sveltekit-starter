@@ -1,9 +1,7 @@
-import { sveltekit } from '@sveltejs/kit/vite';
-import houdini from 'houdini/vite';
-import type { UserConfig } from "vite";
+import { sveltekit } from '@sveltejs/kit/vite'
+import houdini from 'houdini/vite'
+import { defineConfig } from 'vite'
 
-const config: UserConfig = {
+export default defineConfig({
 	plugins: [houdini(), sveltekit()],
-}
-
-export default config;
+})

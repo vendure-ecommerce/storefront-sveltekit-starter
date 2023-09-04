@@ -1,10 +1,12 @@
+/// <references types="houdini-svelte">
+
 /** @type {import('houdini').ConfigFile} */
 const config = {
-	apiUrl: 'https://readonlydemo.vendure.io/shop-api',
+	watchSchema: {
+		url: 'https://readonlydemo.vendure.io/shop-api',
+	},
 	plugins: {
-		'houdini-svelte': {
-			client: './src/client',
-		},
+		'houdini-svelte': {},
 	},
 	scalars: {
 		DateTime: {
