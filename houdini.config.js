@@ -16,7 +16,6 @@ const config = {
 			type: 'number',
 		},
 	},
-	defaultFragmentMasking: true,
 }
 
 export default config

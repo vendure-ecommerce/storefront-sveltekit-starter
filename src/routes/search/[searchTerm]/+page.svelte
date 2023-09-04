@@ -6,6 +6,7 @@
 	import SadFace from '$lib/components/icons/sad-face.svelte'
 	import ProductCard from '$lib/components/product-card.svelte'
 	import { filtersStore } from '$stores/filters'
+	import Search from '$components/search.svelte'
 
 	export let data: PageData
 	const { searchTerm } = data
@@ -26,12 +27,11 @@
 	})
 
 	$: products = $SearchProducts?.data?.search?.items || []
-	$: facetValues = $SearchProducts?.data?.search?.facetValues || []
 </script>
 
 <div class="flex">
 	{#if Object.entries(products).length >= 1}
-		<Filters {facetValues} />
+		<Filters search={$SearchProducts.data.search} />
 		<div
 			class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
 		>
