@@ -10,6 +10,9 @@ const config = {
 		DateTime: {
 			type: 'string',
 		},
+		Money: {
+			type: 'number',
+		},
 	},
 	defaultFragmentMasking: true,
 }

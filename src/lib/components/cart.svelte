@@ -17,7 +17,7 @@
 	let fromMutation = false
 
 	const gql_Cart: CartStore = graphql`
-		query Cart @manual_load {
+		query Cart @load {
 			activeOrder {
 				...CartInfo
 			}
