@@ -10,11 +10,11 @@
 // }
 
 declare namespace svelte.JSX {
-  interface DOMAttributes<T> {
-    onclick_outside?: CompositionEventHandler<T>
-  }
+	interface DOMAttributes<T> {
+		onclick_outside?: CompositionEventHandler<T>
+	}
 }
 
 interface ImportMetaEnv {
-  readonly VITE_GRAPHQL_ENDPOINT: string
+	readonly PUBLIC_GRAPHQL_ENDPOINT: string
 }
